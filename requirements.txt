@@ -1,0 +1,2 @@
+PyGObject >= 3.28
+pyyaml >= 3.13
