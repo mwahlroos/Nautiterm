@@ -18,7 +18,9 @@ gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, Gio, GConf
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
-CONFIG_FILE_PATH = os.path.join(os.environ['HOME'], '.config', CONFIG_FILE_NAME)
+CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME',
+                                 os.path.join(os.environ['HOME'], '.config'))
+CONFIG_FILE_PATH = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
 DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
 
