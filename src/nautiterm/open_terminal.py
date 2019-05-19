@@ -7,7 +7,9 @@
 
 from __future__ import print_function
 
-import os, sys
+import os
+import os.path
+import sys
 import yaml  # for loading configuration
 
 # A way to get unquote working with python 2 and 3
@@ -23,8 +25,7 @@ gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, GLib, GConf
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
-CONFIG_FILE_PATH = os.environ['HOME'] + os.sep + ".config" + os.sep +\
-                   CONFIG_FILE_NAME
+CONFIG_FILE_PATH = os.path.join(os.environ['HOME'], '.config', CONFIG_FILE_NAME)
 DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
 
