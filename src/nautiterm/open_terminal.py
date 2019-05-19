@@ -22,7 +22,7 @@ import gi
 
 gi.require_version('GConf', '2.0')
 gi.require_version('Nautilus', '3.0')
-from gi.repository import Nautilus, GObject, GLib, GConf
+from gi.repository import Nautilus, GObject, Gio, GConf
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
 CONFIG_FILE_PATH = os.path.join(os.environ['HOME'], '.config', CONFIG_FILE_NAME)
@@ -34,10 +34,10 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         self.client = GConf.Client.get_default()
 
     def _open_terminal(self, file):
-        filename = unquote(file.get_uri())[7:]
-        # filename = unquote(GLib.filename_from_uri(file.get_uri()))
+        gvfs = Gio.Vfs.get_default()
+        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
 
-        os.chdir(filename)
+        os.chdir(open_path)
         os.system(self._get_terminal_exec())
 
     def _get_terminal_exec(self):
