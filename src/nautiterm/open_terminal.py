@@ -11,13 +11,6 @@ import os
 import os.path
 import sys
 import yaml  # for loading configuration
-
-# A way to get unquote working with python 2 and 3
-try:
-    from urllib import unquote
-except ImportError:
-    from urllib.parse import unquote
-
 import gi
 
 gi.require_version('GConf', '2.0')
