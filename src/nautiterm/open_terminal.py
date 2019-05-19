@@ -1,9 +1,16 @@
-# Nautilus extension for opening a terminal window at the current location.
+# Nautilus extension for opening a terminal window at the given/current location.
 #
 # Based on example code from the Nautilus Python project, retrieved from
 # https://gitlab.gnome.org/GNOME/nautilus-python/blob/master/examples/open-terminal.py
 #
 # The original example is contributed by Martin Enlund
+#
+# Modifications made by Mika Wahlroos (mika.wahlroos@iki.fi):
+# - Read a configuration file if present, and launch the terminal executable
+#   specified in the configuration instead of gnome-terminal
+# - Use the file URI/path functions from PyGObject to get the path of the
+#   terminal executable from the file URI rather than just assuming a file://
+#   URI
 
 from __future__ import print_function
 
