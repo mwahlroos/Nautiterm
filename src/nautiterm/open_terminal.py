@@ -22,7 +22,9 @@ gi.require_version('GConf', '2.0')
 gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, GLib, GConf
 
-CONFIG_FILE_NAME = '.nautiterm.conf'
+CONFIG_FILE_NAME = 'nautiterm.yml'
+CONFIG_FILE_PATH = os.environ['HOME'] + os.sep + ".config" + os.sep +\
+                   CONFIG_FILE_NAME
 DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
 
@@ -42,21 +44,20 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         Returns the executable name of a terminal emulator to launch based on user
         configuration, or gnome-terminal if nothing else has been specified.
         """
-        config_path = os.environ['HOME'] + os.sep + CONFIG_FILE_NAME
 
         terminal = None
 
         try:
-            with open(config_path) as conffile:
+            with open(CONFIG_FILE_PATH) as conffile:
                 config = yaml.load(conffile, yaml.SafeLoader)
             terminal = config.get('terminal', None)
         except yaml.YAMLError:
             print("NautiTerm: invalid configuration file at {path}, falling back" +
-                  " to {d}".format(path=config_path, d=DEFAULT_TERMINAL_EXEC),
+                  " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC),
                   file=sys.stderr)
         except PermissionError:
             print("NautiTerm: no permission to read configuration file at " +
-                  "{path}, falling back to {d}".format(path=config_path,
+                  "{path}, falling back to {d}".format(path=CONFIG_FILE_PATH,
                                                        d=DEFAULT_TERMINAL_EXEC),
                   file=sys.stderr)
         except FileNotFoundError:
