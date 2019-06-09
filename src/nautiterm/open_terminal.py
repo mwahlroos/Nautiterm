@@ -6,10 +6,9 @@
 # The original example is contributed by Martin Enlund
 #
 # Modifications made by Mika Wahlroos (mika.wahlroos@iki.fi):
-# - Read a configuration file if present, and launch the terminal executable
-#   specified in the configuration instead of gnome-terminal
-# - Use the file URI/path functions from PyGObject to get the path of the
-#   terminal executable from the file URI rather than just assuming a file://
+# - Read the name/path of the terminal executable from a config file if present
+# - Use the file URI/path functions from PyGObject to get the path to the
+#   current location based on the file URI rather than just assuming a file://
 #   URI
 
 from __future__ import print_function
@@ -22,7 +21,7 @@ import gi
 
 gi.require_version('GConf', '2.0')
 gi.require_version('Nautilus', '3.0')
-from gi.repository import Nautilus, GObject, Gio, GConf
+from gi.repository import Nautilus, GObject, Gio
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
 CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME',
@@ -30,10 +29,12 @@ CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME',
 CONFIG_FILE_PATH = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
 DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
+print("Starting Nautiterm")
+
 
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
     def __init__(self):
-        self.client = GConf.Client.get_default()
+        pass
 
     def _open_terminal(self, file):
         gvfs = Gio.Vfs.get_default()
