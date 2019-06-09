@@ -33,6 +33,7 @@ print("Starting Nautiterm")
 
 
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
+
     def __init__(self):
         pass
 
@@ -56,11 +57,11 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
                 config = yaml.load(conffile, yaml.SafeLoader)
             terminal = config.get('terminal', None)
         except yaml.YAMLError:
-            print("NautiTerm: invalid configuration file at {path}, falling back" +
+            print("Nautiterm: invalid configuration file at {path}, falling back" +
                   " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC),
                   file=sys.stderr)
         except PermissionError:
-            print("NautiTerm: no permission to read configuration file at " +
+            print("Nautiterm: no permission to read configuration file at " +
                   "{path}, falling back to {d}".format(path=CONFIG_FILE_PATH,
                                                        d=DEFAULT_TERMINAL_EXEC),
                   file=sys.stderr)
