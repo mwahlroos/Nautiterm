@@ -2,7 +2,7 @@ Nautiterm - Open a terminal of your choice from Nautilus
 ========================================================
 
 Nautiterm is an extension to the Nautilus file manager that opens a terminal
-window of your choice at the location of the selected file.
+window of your choice at the location of the selected folder.
 
 The functionality is almost identical to other similar extensions, as well as
 to the functionality provided by the Nautilus integration of Gnome Terminal,
@@ -20,8 +20,8 @@ Dependencies
 
 The extension requires the following:
 
-- Python bindings for the Nautilus Extension Framework
-- PYGObject, i.e. Python bindings for the GObject library
+- Python bindings for the Nautilus Extension Framework (nautilus-python)
+- PyGObject, i.e. Python bindings for the GObject library
 - PyYAML
 
 On Fedora you can install the dependencies with the following command:
@@ -61,6 +61,13 @@ You can uninstall the extension by removing the extension file:
 
   rm $HOME/.local/share/nautilus-python/extensions/open_terminal.py
 
+Basic use
+---------
+
+Right-click on a folder in Nautilus, or on the empty background of an opened
+folder, and the context menu should contain an option for opening a terminal
+at the location.
+
 Configuration
 -------------
 
@@ -93,11 +100,11 @@ There is no localization support yet.
 Authors
 -------
 
-The code is based on `example code`_ written for the Python bindings for Nautilus
+The code is based on `example code`_ for the Python bindings for Nautilus
 extensions.
 
 .. _example code: https://gitlab.gnome.org/GNOME/nautilus-python/blob/master/examples/open-terminal.py
 
-Modifications to the original code: © Mika Wahlroos (mika.wahlroos@iki.fi), 2019
+Modifications to the original code: Mika Wahlroos (mika.wahlroos@iki.fi), 2019
 
-Released under the GNU General Public License, version 2
+Released under the GNU General Public License, version 2.
