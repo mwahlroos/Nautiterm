@@ -72,25 +72,26 @@ Configuration
 -------------
 
 Out of the box with no configuration, Nautiterm opens a new Gnome Terminal
-window. To have it open a different terminal emulator, such as `Terminator`_,
-add a file named ``$HOME/.config/nautiterm.yml``, with the following contents:
-
-.. _Terminator: https://launchpad.net/~gnome-terminator
+window. To have it open a different terminal emulator, add a file named
+``$HOME/.config/nautiterm.yml``, with the following contents:
 
 ::
 
   terminal: terminal_program
 
-For example, to have Nautilus open Terminator instead of Gnome Terminal, the
-configuration would usually be
+where ``terminal_program`` should be replaced with the executable name of your
+desired terminal. For example, to have Nautilus open `Terminator`_ instead of
+Gnome Terminal, the configuration would usually be
+
+.. _Terminator: https://launchpad.net/~gnome-terminator
 
 ::
 
   terminal: /usr/bin/terminator
 
 In the above, ``$HOME`` refers to your home directory. On Linux, the correct
-location for the configuration file would typically be
-``/home/YOUR_USERNAME_HERE/.config``.
+full name of the configuration file would typically be
+``/home/YOUR_USERNAME_HERE/.config/nautiterm.yml``.
 
 Caveats and TODO
 ----------------
