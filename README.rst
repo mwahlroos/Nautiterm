@@ -55,6 +55,9 @@ Then either log out and back in, or just shut down Nautilus:
 
 The extension should be enabled the next time Nautilus is started.
 
+Uninstalling
+------------
+
 You can uninstall the extension by removing the extension file:
 
 ::
