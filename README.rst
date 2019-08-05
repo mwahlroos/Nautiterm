@@ -39,8 +39,10 @@ On Ubuntu, the following command should install the dependencies:
 Installing
 ----------
 
-There is no install routine yet. However, you can install the extension by
-copying the file ``open_terminal.py`` into the Nautilus extensions folder:
+You can install the extension by copying the file ``open_terminal.py`` from
+the ``src/nautiterm`` folder into the Nautilus Python extensions folder.
+Running the following commands in the root folder of the Nautiterm repository
+will copy the file in the correct location:
 
 ::
 
