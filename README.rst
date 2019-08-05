@@ -47,7 +47,7 @@ copying the file ``open_terminal.py`` into the Nautilus extensions folder:
   mkdir -p $HOME/.local/share/nautilus-python/extensions
   cp src/nautiterm/open_terminal.py $HOME/.local/share/nautilus-python/extensions
 
-Then either log out and back in, or just shut down Nautilus:
+After installing the extension, shut down Nautilus:
 
 ::
 
