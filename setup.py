@@ -1,10 +1,12 @@
+from __future__ import print_function
 from setuptools import setup, find_packages
+from setuptools.command.install import install as _install
 import os.path
 
-# allows specifying encoding for open() in both Python 2 and 3
+# Allows specifying encoding for open() in both Python 2 and 3
 from io import open
 
-# based on the packaging sample project at
+# Based on the packaging sample project at
 # https://github.com/pypa/sampleproject/blob/master/setup.py
 
 here = os.path.abspath(os.path.dirname(__file__))
@@ -14,6 +16,25 @@ def _read_long_description():
     readme_path = os.path.join(here, 'README.rst')
     with open(readme_path, encoding='utf-8') as f:
         return f.read()
+
+
+# Install stanza based on that of nautilus-terminal by Fabien Loison;
+# https://github.com/flozz/nautilus-terminal/blob/master/setup.py
+class install(_install):
+    def run(self):
+        print("--- Installing Nautiterm Python package in site-packages")
+        _install.run(self)
+
+        # copy the extension file to the Nautilus Python extensions dir
+        src_file = "src/nautiterm/open_terminal.py"
+        dst_dir = os.path.join(self.install_data, "share/nautilus-python/extensions")
+        self.mkpath(dst_dir)
+        dst_file = os.path.join(dst_dir, os.path.basename(src_file))
+        print("--- Installing Nautilus extension in " + dst_dir)
+        if os.path.exists(dst_file):
+            print("--- File {f} already exists; skipping".format(f=dst_file))
+        else:
+            self.copy_file(src_file, dst_file)
 
 
 setup(
@@ -52,5 +73,8 @@ setup(
         'pyyaml >= 3.13'
     ],
 
-    zip_safe=True
+    zip_safe=True,
+
+    # use the custom install routine
+    cmdclass={"install": install}
 )
