@@ -39,15 +39,12 @@ On Ubuntu, the following command should install the dependencies:
 Installing
 ----------
 
-You can install the extension by copying the file ``open_terminal.py`` from
-the ``src/nautiterm`` folder into the Nautilus Python extensions folder.
-Running the following commands in the root folder of the Nautiterm repository
-will copy the file in the correct location:
+You can install the extension by running following command in the root folder
+of the Nautiterm repository:
 
 ::
 
-  mkdir -p $HOME/.local/share/nautilus-python/extensions
-  cp src/nautiterm/open_terminal.py $HOME/.local/share/nautilus-python/extensions
+  python setup.py install --user
 
 After installing the extension, shut down Nautilus:
 
@@ -60,11 +57,29 @@ The extension should be enabled the next time Nautilus is started.
 Uninstalling
 ------------
 
-You can uninstall the extension by removing the extension file:
+Uninstall the Nautiterm package using `PIP`_:
+
+.. _PIP: https://pip.pypa.io/en/stable/
+
+::
+
+  pip uninstall Nautiterm
+
+However, PIP cannot remove the Nautilus extension file itself, so it needs
+to be manually removed:
 
 ::
 
   rm $HOME/.local/share/nautilus-python/extensions/open_terminal.py
+
+Then shut down Nautilus:
+
+::
+
+  nautilus -q
+
+The extension should be gone the next time you start Nautilus.
+
 
 Basic use
 ---------
