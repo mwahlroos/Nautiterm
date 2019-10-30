@@ -15,6 +15,7 @@ from __future__ import print_function
 
 import os
 import os.path
+import subprocess
 import sys
 import yaml  # for loading configuration
 import gi
@@ -42,7 +43,7 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
 
         os.chdir(open_path)
-        os.system(self._get_terminal_exec())
+        subprocess.Popen([self._get_terminal_exec()])
 
     def _get_terminal_exec(self):
         """
