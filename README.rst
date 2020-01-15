@@ -8,12 +8,12 @@ The functionality is almost identical to other similar extensions, as well as
 to the functionality provided by the Nautilus integration of Gnome Terminal,
 available e.g. on Fedora as the ``gnome-terminal-nautilus`` package.
 
-However, the current implementation provided by the Gnome Terminal Nautilus
-integration always opens Gnome Terminal regardless of whether you would prefer
-to use a different terminal emulator.
+However, Nautiterm can be **configured to open the terminal emulator
+of your choice**.
 
-Nautiterm does the same but can be configured to open the terminal emulator
-of your choice. The default is still to open Gnome Terminal.
+The default is still to open Gnome Terminal.
+
+Nautiterm does the same but can be
 
 Dependencies
 ------------
@@ -40,9 +40,10 @@ Installing
 ----------
 
 You can install the extension by copying the file ``open_terminal.py`` from
-the ``src/nautiterm`` folder into the Nautilus Python extensions folder.
+the ``src/nautiterm`` folder into the Nautilus Python extensions folder, which
+is located at ``$HOME/.local/share/nautilus-python/``.
 Running the following commands in the root folder of the Nautiterm repository
-will copy the file in the correct location:
+will copy the file into the correct location:
 
 ::
 
@@ -55,7 +56,8 @@ After installing the extension, shut down Nautilus:
 
   nautilus -q
 
-The extension should be enabled the next time Nautilus is started.
+The extension should be enabled the next time Nautilus is started,
+e.g. by opening a folder.
 
 Uninstalling
 ------------
@@ -111,6 +113,10 @@ extensions.
 
 .. _example code: https://gitlab.gnome.org/GNOME/nautilus-python/blob/master/examples/open-terminal.py
 
-Modifications to the original code: Mika Wahlroos (mika.wahlroos@iki.fi), 2019
+The copyright to the original source code is owned by its original authors.
+
+Modifications to the original code:
+
+© Mika Wahlroos (mika.wahlroos@iki.fi), 2019-2020
 
 Released under the GNU General Public License, version 2.
