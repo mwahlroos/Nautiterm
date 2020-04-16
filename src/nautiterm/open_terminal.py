@@ -60,12 +60,9 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
             print("Nautiterm: invalid configuration file at {path}, falling back" +
                   " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC),
                   file=sys.stderr)
-        except PermissionError:
-            print("Nautiterm: no permission to read configuration file at " +
-                  "{path}, falling back to {d}".format(path=CONFIG_FILE_PATH,
-                                                       d=DEFAULT_TERMINAL_EXEC),
-                  file=sys.stderr)
-        except FileNotFoundError:
+        except IOError as ioe:
+            # catch-all for permission errors and file not founds to be compatible
+            # with Python 2 which doesn't have FileNotFoundError or PermissionError
             pass
 
         if not terminal:
