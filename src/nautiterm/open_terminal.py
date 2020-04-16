@@ -20,7 +20,6 @@ import sys
 import yaml  # for loading configuration
 import gi
 
-gi.require_version('GConf', '2.0')
 gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, Gio
 
