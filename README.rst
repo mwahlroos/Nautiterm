@@ -13,8 +13,6 @@ of your choice**.
 
 The default is still to open Gnome Terminal.
 
-Nautiterm does the same but can be
-
 Dependencies
 ------------
 
