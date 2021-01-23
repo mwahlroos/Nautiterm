@@ -41,12 +41,12 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         gvfs = Gio.Vfs.get_default()
         open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
 
-        exec = self._get_terminal_exec()
-        if 'gnome-terminal' in exec or 'terminator' in exec:
+        exc = self._get_terminal_exec()
+        if 'gnome-terminal' in exc or 'terminator' in exc:
             subprocess.Popen([self._get_terminal_exec(), '--working-directory={p}'.format(p=open_path)])
         else:
             os.chdir(open_path)
-            subprocess.Popen([exec])
+            subprocess.Popen([exc])
 
     def _get_terminal_exec(self):
         """
