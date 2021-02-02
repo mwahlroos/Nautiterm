@@ -22,17 +22,24 @@ The extension requires the following:
 - PyGObject, i.e. Python bindings for the GObject library
 - PyYAML
 
-On Fedora you can install the dependencies with the following command:
+On **Fedora** you can install the dependencies with the following command:
 
 ::
 
   sudo dnf install nautilus-python python3-yaml
 
-On Ubuntu, the following command should install the dependencies:
+On **Ubuntu 20.04 LTS**, the following command should install the dependencies:
+
+::
+
+  sudo apt install python3-nautilus python3-yaml
+
+On **Ubuntu 18.04 LTS**, use the Python 2 versions of the dependencies instead:
 
 ::
 
   sudo apt install python-nautilus python-yaml
+
 
 Installing
 ----------
