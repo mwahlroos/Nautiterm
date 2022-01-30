@@ -10,8 +10,7 @@
 # - Use the file URI/path functions from PyGObject to get the path to the
 #   current location based on the file URI rather than just assuming a file://
 #   URI
-
-from __future__ import print_function
+# - Assume Python 3.x
 
 import os
 import os.path
@@ -22,6 +21,11 @@ import gi
 
 gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, Gio
+
+PYTHON_MIN_MAJOR_VERSION = 3
+
+if sys.version_info[0] < PYTHON_MIN_MAJOR_VERSION:
+    raise RuntimeError('Nautiterm requires Python version 3.x or greater')
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
 CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME',
