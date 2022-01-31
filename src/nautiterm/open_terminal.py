@@ -19,13 +19,13 @@ import subprocess
 import sys
 import yaml  # for loading configuration
 import gi
-from pathlib import Path
 
 gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, Gio
 
 CONFIG_FILE_NAME = 'nautiterm.yml'
-CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME', os.path.join(os.environ['HOME'], '.config'))
+CONFIG_FILE_DIR = os.environ.get('XDG_CONFIG_HOME',
+                                 os.path.join(os.environ['HOME'], '.config'))
 CONFIG_FILE_PATH = os.path.join(CONFIG_FILE_DIR, CONFIG_FILE_NAME)
 DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
@@ -35,29 +35,15 @@ print("Starting Nautiterm")
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
 
     def __init__(self):
-        try:
-            with open(CONFIG_FILE_PATH) as conffile:
-                config = yaml.load(conffile, yaml.SafeLoader)
-            self.terminal = config.get('terminal', None)
-            self.displayName = config.get('display-name', True)
-            if not self.terminal:
-                self.terminal = DEFAULT_TERMINAL_EXEC
-        except yaml.YAMLError:
-            print("Nautiterm: invalid configuration file at {path}, falling back" + " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC), file=sys.stderr)
-        except IOError as ioe:
-            # catch-all for permission errors and file not founds to be compatible
-            # with Python 2 which doesn't have FileNotFoundError or PermissionError
-            pass
+        pass
 
     def _open_terminal(self, file):
         gvfs = Gio.Vfs.get_default()
         open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
 
         exc = self._get_terminal_exec()
-        excName = exc.name
-        exc = exc.as_posix()
-        if 'gnome-terminal' in excName or 'terminator' in excName:
-            subprocess.Popen([exc, '--working-directory={p}'.format(p=open_path)])
+        if 'gnome-terminal' in exc or 'terminator' in exc:
+            subprocess.Popen([self._get_terminal_exec(), '--working-directory={p}'.format(p=open_path)])
         else:
             os.chdir(open_path)
             subprocess.Popen([exc])
@@ -68,18 +54,25 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         configuration, or gnome-terminal if nothing else has been specified.
         """
 
-        purePath = Path(self.terminal)
+        terminal = None
 
-        if not(purePath.is_absolute()):
-            envPath = os.environ['PATH'].split(':')
-            envPath.insert(0, Path.cwd())
-            for directory in envPath:
-                testPath = directory / purePath
-                if testPath.exists():
-                    purePath = testPath
-                    break
+        try:
+            with open(CONFIG_FILE_PATH) as conffile:
+                config = yaml.load(conffile, yaml.SafeLoader)
+            terminal = config.get('terminal', None)
+        except yaml.YAMLError:
+            print("Nautiterm: invalid configuration file at {path}, falling back" +
+                  " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC),
+                  file=sys.stderr)
+        except IOError as ioe:
+            # catch-all for permission errors and file not founds to be compatible
+            # with Python 2 which doesn't have FileNotFoundError or PermissionError
+            pass
 
-        return purePath.resolve();
+        if not terminal:
+            terminal = DEFAULT_TERMINAL_EXEC
+
+        return terminal
 
     def menu_activate_cb(self, menu, file):
         self._open_terminal(file)
@@ -95,15 +88,15 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         if not file.is_directory() or file.get_uri_scheme() != 'file':
             return
 
-        item = Nautilus.MenuItem(name = 'NautilusPython::openterminal_file_item',
-                                 label = 'Open Terminal (%s)' % self._get_terminal_exec().name if self.displayName else 'Open Terminal',
-                                 tip = 'Open Terminal In %s' % file.get_name())
+        item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item',
+                                 label='Open Terminal (%s)' % self._get_terminal_exec(),
+                                 tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_activate_cb, file)
         return item,
 
     def get_background_items(self, window, file):
-        item = Nautilus.MenuItem(name = 'NautilusPython::openterminal_file_item2',
-                                 label = 'Open Terminal (%s)' % self._get_terminal_exec().name if self.displayName else 'Open Terminal',
-                                 tip = 'Open Terminal In %s' % file.get_name())
+        item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item2',
+                                 label='Open Terminal (%s)' % self._get_terminal_exec(),
+                                 tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_background_activate_cb, file)
         return item,
