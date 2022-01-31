@@ -18,6 +18,7 @@ Dependencies
 
 The extension requires the following:
 
+- Python 3.4 or higher, and Python 3 versions of the following
 - Python bindings for the Nautilus Extension Framework (nautilus-python)
 - PyGObject, i.e. Python bindings for the GObject library
 - PyYAML
@@ -34,11 +35,9 @@ On **Ubuntu 20.04 LTS**, the following command should install the dependencies:
 
   sudo apt install python3-nautilus python3-yaml
 
-On **Ubuntu 18.04 LTS**, use the Python 2 versions of the dependencies instead:
-
-::
-
-  sudo apt install python-nautilus python-yaml
+This version of the extension requires Python 3. For older distributions where
+the Nautilus Python bindings use Python 2.x, such as **Ubuntu 18.04 LTS**,
+check out the older version in the python2-support branch.
 
 
 Installing
