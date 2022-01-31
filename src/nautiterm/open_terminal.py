@@ -18,6 +18,7 @@ import subprocess
 import sys
 import yaml  # for loading configuration
 import gi
+import shutil
 
 gi.require_version('Nautilus', '3.0')
 from gi.repository import Nautilus, GObject, Gio
@@ -75,6 +76,11 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
 
         if not terminal:
             terminal = DEFAULT_TERMINAL_EXEC
+
+        terminal = shutil.which(terminal);
+
+        while os.path.islink(terminal):
+            terminal = shutil.which(os.readlink(terminal))
 
         return terminal
 
