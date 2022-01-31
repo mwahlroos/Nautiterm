@@ -18,7 +18,7 @@ Dependencies
 
 The extension requires the following:
 
-- Python 3.3 or higher, and Python 3 versions of the following
+- Python 3.4 or higher, and Python 3 versions of the following
 - Python bindings for the Nautilus Extension Framework (nautilus-python)
 - PyGObject, i.e. Python bindings for the GObject library
 - PyYAML
