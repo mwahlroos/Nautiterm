@@ -36,29 +36,9 @@ DEFAULT_TERMINAL_EXEC = 'gnome-terminal'
 
 print("Starting Nautiterm")
 
-
-class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
+class Configuration:
 
     def __init__(self):
-        pass
-
-    def _open_terminal(self, file):
-        gvfs = Gio.Vfs.get_default()
-        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
-
-        exc = self._get_terminal_exec()
-        if 'gnome-terminal' in exc or 'terminator' in exc:
-            subprocess.Popen([self._get_terminal_exec(), '--working-directory={p}'.format(p=open_path)])
-        else:
-            os.chdir(open_path)
-            subprocess.Popen([exc])
-
-    def _get_terminal_exec(self):
-        """
-        Returns the executable name of a terminal emulator to launch based on user
-        configuration, or gnome-terminal if nothing else has been specified.
-        """
-
         terminal = None
 
         try:
@@ -76,6 +56,33 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
 
         if not terminal:
             terminal = DEFAULT_TERMINAL_EXEC
+
+        """
+        Contains the executable name of a terminal emulator to launch based on user
+        configuration, or gnome-terminal if nothing else has been specified.
+        """
+        self.terminal = terminal
+
+
+class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
+
+    def __init__(self):
+        self.configuration = Configuration()
+
+    def _open_terminal(self, file):
+        gvfs = Gio.Vfs.get_default()
+        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
+
+        exc = self._get_terminal_exec()
+        if 'gnome-terminal' in exc or 'terminator' in exc:
+            subprocess.Popen([self._get_terminal_exec(), '--working-directory={p}'.format(p=open_path)])
+        else:
+            os.chdir(open_path)
+            subprocess.Popen([exc])
+
+    def _get_terminal_exec(self):
+
+        terminal = self.configuration.terminal
 
         terminal = shutil.which(terminal);
 
@@ -110,3 +117,5 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_background_activate_cb, file)
         return item,
+
+
