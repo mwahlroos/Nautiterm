@@ -85,7 +85,7 @@ class Terminal:
             subprocess.Popen([self.path, '--working-directory={p}'.format(p=open_path)])
         else:
             os.chdir(open_path)
-            subprocess.Popen([exc])
+            subprocess.Popen([self.path])
 
 
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
