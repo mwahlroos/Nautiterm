@@ -45,6 +45,7 @@ class Configuration:
             with open(CONFIG_FILE_PATH) as conffile:
                 config = yaml.load(conffile, yaml.SafeLoader)
             terminal = config.get('terminal', None)
+            self.display_name = config.get('display-name', True)
         except yaml.YAMLError:
             print("Nautiterm: invalid configuration file at {path}, falling back" +
                   " to {d}".format(path=CONFIG_FILE_PATH, d=DEFAULT_TERMINAL_EXEC),
@@ -108,15 +109,23 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         if not file.is_directory() or file.get_uri_scheme() != 'file':
             return
 
+        label = 'Open Terminal'
+        if self.configuration.display_name:
+            label += ' (%s)' % self.terminal.name
+
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item',
-                                 label='Open Terminal (%s)' % self.terminal.name,
+                                 label=label,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_activate_cb, file)
         return item,
 
     def get_background_items(self, window, file):
+        label = 'Open Terminal'
+        if self.configuration.display_name:
+            label += ' (%s)' % self.terminal.name
+
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item2',
-                                 label='Open Terminal (%s)' % self.terminal.name,
+                                 label=label,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_background_activate_cb, file)
         return item,
