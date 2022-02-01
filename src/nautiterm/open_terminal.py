@@ -21,7 +21,7 @@ import gi
 import shutil
 
 gi.require_version('Nautilus', '3.0')
-from gi.repository import Nautilus, GObject, Gio
+from gi.repository import Nautilus, GObject
 
 PYTHON_MIN_MAJOR_VERSION = 3
 
@@ -76,12 +76,12 @@ class Terminal:
             path = shutil.which(os.readlink(path))
 
         self.path = path
+        self.name = os.path.basename(path)
 
     def open(self, file):
-        gvfs = Gio.Vfs.get_default()
-        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
+        open_path = file.get_location().get_path()
 
-        if 'gnome-terminal' in self.path or 'terminator' in self.path:
+        if 'gnome-terminal' in self.name or 'terminator' in self.name:
             subprocess.Popen([self.path, '--working-directory={p}'.format(p=open_path)])
         else:
             os.chdir(open_path)
@@ -109,14 +109,14 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
             return
 
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item',
-                                 label='Open Terminal (%s)' % self.terminal.path,
+                                 label='Open Terminal (%s)' % self.terminal.name,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_activate_cb, file)
         return item,
 
     def get_background_items(self, window, file):
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item2',
-                                 label='Open Terminal (%s)' % self.terminal.path,
+                                 label='Open Terminal (%s)' % self.terminal.name,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_background_activate_cb, file)
         return item,
