@@ -63,39 +63,42 @@ class Configuration:
         """
         self.terminal = terminal
 
+class Terminal:
+
+    def __init__(self, configuration):
+        self.configuration = configuration
+        path = shutil.which(configuration.terminal);
+
+        if not path:
+            raise RuntimeError('Nautiterm: Unable to find configured terminal: %s' % configuration.terminal)
+
+        while os.path.islink(path):
+            path = shutil.which(os.readlink(path))
+
+        self.path = path
+
+    def open(self, file):
+        gvfs = Gio.Vfs.get_default()
+        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
+
+        if 'gnome-terminal' in self.path or 'terminator' in self.path:
+            subprocess.Popen([self.path, '--working-directory={p}'.format(p=open_path)])
+        else:
+            os.chdir(open_path)
+            subprocess.Popen([exc])
+
 
 class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
 
     def __init__(self):
         self.configuration = Configuration()
-
-    def _open_terminal(self, file):
-        gvfs = Gio.Vfs.get_default()
-        open_path = gvfs.get_file_for_uri(file.get_uri()).get_path()
-
-        exc = self._get_terminal_exec()
-        if 'gnome-terminal' in exc or 'terminator' in exc:
-            subprocess.Popen([self._get_terminal_exec(), '--working-directory={p}'.format(p=open_path)])
-        else:
-            os.chdir(open_path)
-            subprocess.Popen([exc])
-
-    def _get_terminal_exec(self):
-
-        terminal = self.configuration.terminal
-
-        terminal = shutil.which(terminal);
-
-        while os.path.islink(terminal):
-            terminal = shutil.which(os.readlink(terminal))
-
-        return terminal
+        self.terminal = Terminal(self.configuration)
 
     def menu_activate_cb(self, menu, file):
-        self._open_terminal(file)
+        self.terminal.open(file)
 
     def menu_background_activate_cb(self, menu, file):
-        self._open_terminal(file)
+        self.terminal.open(file)
 
     def get_file_items(self, window, files):
         if len(files) != 1:
@@ -106,16 +109,14 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
             return
 
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item',
-                                 label='Open Terminal (%s)' % self._get_terminal_exec(),
+                                 label='Open Terminal (%s)' % self.terminal.path,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_activate_cb, file)
         return item,
 
     def get_background_items(self, window, file):
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item2',
-                                 label='Open Terminal (%s)' % self._get_terminal_exec(),
+                                 label='Open Terminal (%s)' % self.terminal.path,
                                  tip='Open Terminal In %s' % file.get_name())
         item.connect('activate', self.menu_background_activate_cb, file)
         return item,
-
-
