@@ -23,13 +23,13 @@ The extension requires the following:
 - PyGObject, i.e. Python bindings for the GObject library
 - PyYAML
 
-On **Fedora** you can install the dependencies with the following command:
+On **Fedora Linux** you can install the dependencies with the following command:
 
 ::
 
   sudo dnf install nautilus-python python3-yaml
 
-On **Ubuntu 20.04 LTS**, the following command should install the dependencies:
+On **Ubuntu 20.04 LTS or later**, the following command should install the dependencies:
 
 ::
 
@@ -63,15 +63,6 @@ After installing the extension, shut down Nautilus:
 The extension should be enabled the next time Nautilus is started,
 e.g. by opening a folder.
 
-Uninstalling
-------------
-
-You can uninstall the extension by removing the extension file:
-
-::
-
-  rm $HOME/.local/share/nautilus-python/extensions/open_terminal.py
-
 Basic use
 ---------
 
@@ -104,6 +95,15 @@ In the above, ``$HOME`` refers to your home directory. On Linux, the correct
 full name of the configuration file would typically be
 ``/home/YOUR_USERNAME_HERE/.config/nautiterm.yml``.
 
+Uninstalling
+------------
+
+You can uninstall the extension by removing the extension file:
+
+::
+
+  rm $HOME/.local/share/nautilus-python/extensions/open_terminal.py
+
 Caveats and TODO
 ----------------
 
@@ -121,6 +121,6 @@ The copyright to the original source code is owned by its original authors.
 
 Modifications to the original code:
 
-© Mika Wahlroos (mika.wahlroos@iki.fi), 2019-2020
+© Mika Wahlroos (mika.wahlroos@iki.fi), 2019-2022
 
 Released under the GNU General Public License, version 2.
