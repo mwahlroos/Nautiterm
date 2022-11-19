@@ -19,7 +19,7 @@ import sys
 import yaml  # for loading configuration
 import gi
 
-gi.require_version('Nautilus', '3.0')
+gi.require_version('Nautilus', '4.0')
 from gi.repository import Nautilus, GObject, Gio
 
 PYTHON_MIN_MAJOR_VERSION = 3
@@ -84,7 +84,7 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
     def menu_background_activate_cb(self, menu, file):
         self._open_terminal(file)
 
-    def get_file_items(self, window, files):
+    def get_file_items(self, files):
         if len(files) != 1:
             return
 
@@ -98,7 +98,7 @@ class OpenTerminalExtension(Nautilus.MenuProvider, GObject.GObject):
         item.connect('activate', self.menu_activate_cb, file)
         return item,
 
-    def get_background_items(self, window, file):
+    def get_background_items(self, file):
         item = Nautilus.MenuItem(name='NautilusPython::openterminal_file_item2',
                                  label='Open Terminal (%s)' % self._get_terminal_exec(),
                                  tip='Open Terminal In %s' % file.get_name())
