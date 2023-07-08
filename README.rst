@@ -109,6 +109,18 @@ Caveats and TODO
 
 There is no localization support yet.
 
+Proper packaging for easy installing and uninstalling would be nice. Python
+packaging tools can be used to make it somewhat user-friendly to install
+packages but uninstalling requires manually deleting the file since Nautilus
+extensions need to be placed in a custom location rather than in a standard
+location for executables supported by declarative setup configurations. Good
+packaging would probably be distro-specific.
+
+I don't currently have the capacity to support distro-specific packaging,
+especially since this is a minimalistic tool that's probably mostly of interest
+to power users who can deal with simply copying the file. Packaging
+contributions are welcome, though.
+
 Authors
 -------
 
