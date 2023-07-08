@@ -70,6 +70,8 @@ Right-click on a folder in Nautilus, or on the empty background of an opened
 folder, and the context menu should contain an option for opening a terminal
 at the location.
 
+.. image:: doc/nautiterm-basic-use.png
+
 Configuration
 -------------
 
